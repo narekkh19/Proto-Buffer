@@ -22,6 +22,7 @@ int main()
 	file << "This file is created by me:" << std::endl
 				<< "Person that wants to understand how visual studio handles everything:" << std::endl;
 	
+
 	file.seekg(0);
 	std::string line;
 	std::getline(file, line);
