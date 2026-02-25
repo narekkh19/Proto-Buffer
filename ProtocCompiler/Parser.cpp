@@ -8,7 +8,8 @@ std::unique_ptr<AST> Parser::GetAbstractSyntaxTree()
 	std::string line;
 
 	std::stack<Defenition*> st;
-	st.push(new Namespace()); // syntax tree root node 
+	auto root = std::make_unique<Namespace>();
+	st.push(root.get()); // syntax tree root node 
 	bool isEnumValue{};
 
 	while (std::getline(file, line))
@@ -20,7 +21,7 @@ std::unique_ptr<AST> Parser::GetAbstractSyntaxTree()
 
 		while (ss >> word) words.push_back(std::move(word));
 		
-		if (!ValidateLine(words)) continue; 
+		if (!isEnumValue && !SyntaxAnalize(words)) continue;
 		
 		if (words.size() == 1 && words.front() == "}")
 		{
@@ -49,11 +50,11 @@ std::unique_ptr<AST> Parser::GetAbstractSyntaxTree()
 
 	while (st.size() != 1) st.pop(); // poping namespaces from stack because they dont have } end mark
 
-	return std::unique_ptr<AST>(st.top());
+	return root;
 }
 
-//The first 
-bool Parser::ValidateLine(const std::vector<std::string>& words) const
+
+bool Parser::SyntaxAnalize(const std::vector<std::string>& words) const
 {
 	if (words.empty()) return false;
 

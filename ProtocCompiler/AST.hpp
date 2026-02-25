@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 #include <vector>
 #include <memory>
 #include <stdexcept>
@@ -12,6 +13,8 @@ public:
 	void SetName(const std::string& _name) { name = _name; }
 
 	virtual std::string GetType() const = 0;
+	virtual void print() const = 0;
+	virtual ~AST() = default;
 };
 
 
@@ -23,6 +26,11 @@ public:
 	void AddNested(std::unique_ptr<AST>&& u)
 	{
 		next.push_back(std::move(u));
+	}
+
+	const std::vector<std::unique_ptr<AST>>& GetChildren()  
+	{
+		return next;
 	}
 };
 
@@ -44,6 +52,11 @@ public:
 	{
 		return "namespace";
 	}
+
+	void print() const override
+	{
+		std::cout << "Namespace: " << GetName() << std::endl;
+	}
 };
 
 
@@ -62,6 +75,11 @@ public:
 	{
 		return "class";
 	}
+
+	void print() const override
+	{
+		std::cout << "Class: " << GetName() << std::endl;
+	}
 };
 
 
@@ -79,6 +97,11 @@ public:
 	std::string GetType() const override
 	{
 		return "enum";
+	}
+
+	void print() const override
+	{
+		std::cout << "Enum: " << GetName() << std::endl;
 	}
 };
 
@@ -110,6 +133,11 @@ public:
 		int id = std::atoi(ID.c_str());
 		SetId(id);
 	}
+
+	void print() const override
+	{
+		std::cout << GetType() << ": " << GetName() << " === " << GetId() << std::endl;
+	}
 };
 
 class EnumValue : public AST
@@ -130,6 +158,11 @@ public:
 
 		int id = std::atoi(ID.c_str());
 		SetId(id);
+	}
+
+	void print() const override
+	{
+		std::cout << "EnumValue: " << GetName()  << " === " << GetId() << std::endl;
 	}
 };
 
@@ -154,6 +187,11 @@ public:
 		int id = std::atoi(ID.c_str());
 		SetId(id);
 	}
+
+	void print() const override
+	{
+		std::cout << "Vector: " << GetInnerType() << " " << GetName() << " === " << GetId() << std::endl;
+	}
 };
 
 
@@ -168,7 +206,7 @@ public:
 		
 		if (first_word == "namespace") return std::make_unique<Namespace>(words);
 		if (first_word == "class") return std::make_unique<Class>(words);
-		if (first_word == "enum") return std::make_unique<Enum>();
+		if (first_word == "enum") return std::make_unique<Enum>(words);
 		if (first_word == "vector") return std::make_unique<Container>(words);
 
 		return std::make_unique<Instance>(words);
