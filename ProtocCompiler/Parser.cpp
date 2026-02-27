@@ -1,14 +1,14 @@
 #include "Parser.hpp"
 #include <stack>
 
-std::unique_ptr<AST> Parser::GetAbstractSyntaxTree() 
+std::shared_ptr<AST> Parser::GetAbstractSyntaxTree() 
 {
-	std::vector<std::unique_ptr<AST>> ast;
+	std::vector<std::shared_ptr<AST>> ast;
 	std::ifstream file(file_name);
 	std::string line;
 
 	std::stack<Defenition*> st;
-	auto root = std::make_unique<Namespace>();
+	auto root = std::make_shared<Namespace>();
 	st.push(root.get()); // syntax tree root node 
 	bool isEnumValue{};
 
@@ -31,7 +31,7 @@ std::unique_ptr<AST> Parser::GetAbstractSyntaxTree()
 		}
 
 		
-		std::unique_ptr<AST> curr_ast = ASTFactory().createAST(words, isEnumValue);
+		std::shared_ptr<AST> curr_ast = ASTFactory().createAST(words, isEnumValue);
 		
 
 		auto* new_top = curr_ast.get();

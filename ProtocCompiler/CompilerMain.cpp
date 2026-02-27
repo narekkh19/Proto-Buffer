@@ -1,5 +1,6 @@
 #include "Parser.hpp"
-//
+#include "Generator.hpp"
+
 int u{};
 
 void dfs(AST* curr)
@@ -22,9 +23,15 @@ void dfs(AST* curr)
 }
 
 int main(int argc, char* argv[])
-{
-	Parser parser(argv[1]);
-	auto ASTroot = parser.GetAbstractSyntaxTree();
-	dfs(ASTroot.get());
+{	
 
+	Parser parser(argv[1]);
+
+	auto ASTroot = parser.GetAbstractSyntaxTree();
+	
+	Generator gen("Person", ASTroot);
+	gen.GenerateHeader();
+
+	return 0;
 }
+ 

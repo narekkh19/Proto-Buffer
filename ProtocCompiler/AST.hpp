@@ -20,15 +20,15 @@ public:
 
 class Defenition : public AST
 {
-	std::vector<std::unique_ptr<AST>> next;
+	std::vector<std::shared_ptr<AST>> next;
 
 public:
-	void AddNested(std::unique_ptr<AST>&& u)
+	void AddNested(std::shared_ptr<AST>&& u)
 	{
 		next.push_back(std::move(u));
 	}
 
-	const std::vector<std::unique_ptr<AST>>& GetChildren()  
+	const std::vector<std::shared_ptr<AST>>& GetChildren()  
 	{
 		return next;
 	}
@@ -198,17 +198,17 @@ public:
 class ASTFactory
 {
 public:
-	std::unique_ptr<AST> createAST(const std::vector<std::string>& words, bool isEnumValue)
+	std::shared_ptr<AST> createAST(const std::vector<std::string>& words, bool isEnumValue)
 	{
-		if (isEnumValue) return std::make_unique<EnumValue>(words);
+		if (isEnumValue) return std::make_shared<EnumValue>(words);
 
 		std::string first_word = words.front();
 		
-		if (first_word == "namespace") return std::make_unique<Namespace>(words);
-		if (first_word == "class") return std::make_unique<Class>(words);
-		if (first_word == "enum") return std::make_unique<Enum>(words);
-		if (first_word == "vector") return std::make_unique<Container>(words);
+		if (first_word == "namespace") return std::make_shared<Namespace>(words);
+		if (first_word == "class") return std::make_shared<Class>(words);
+		if (first_word == "enum") return std::make_shared<Enum>(words);
+		if (first_word == "vector") return std::make_shared<Container>(words);
 
-		return std::make_unique<Instance>(words);
+		return std::make_shared<Instance>(words);
 	}
 };

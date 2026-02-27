@@ -1,0 +1,48 @@
+Folder PATH listing
+Volume serial number is EA6F-709F
+C:.
++---.vs
+¦   +---ProtoBuffer
+¦   ¦   +---CopilotIndices
+¦   ¦       +---18.3.508.13148
+¦   +---ProtoBuffer.slnx
+¦       +---copilot-chat
+¦       ¦   +---9469704a
+¦       ¦       +---sessions
+¦       +---FileContentIndex
+¦       +---v18
+¦           +---ipch
+¦           ¦   +---AutoPCH
+¦           ¦       +---4e58123d3eb6318
+¦           ¦       +---5b706430252d70e2
+¦           ¦       +---6ec4f6955fd150c6
+¦           ¦       +---8ab245f0345f2b5a
+¦           ¦       +---b696fd5c6a1ec1ad
+¦           ¦       +---b8770a67b240687e
+¦           ¦       +---d996ba23bb6479a1
+¦           +---TestStore
+¦               +---0
++---out
+¦   +---build
+¦       +---x64-debug
+¦           +---.cmake
+¦           ¦   +---api
+¦           ¦       +---v1
+¦           ¦           +---query
+¦           ¦           ¦   +---client-MicrosoftVS
+¦           ¦           +---reply
+¦           +---CMakeFiles
+¦           ¦   +---4.1.2-msvc8
+¦           ¦   ¦   +---CompilerIdCXX
+¦           ¦   ¦       +---tmp
+¦           ¦   +---CMakeScratch
+¦           ¦   +---CompilerLogic.dir
+¦           ¦   ¦   +---ProtocCompiler
+¦           ¦   +---MyCompiler.dir
+¦           ¦   ¦   +---ProtocCompiler
+¦           ¦   +---pkgRedirects
+¦           ¦   +---ShowIncludes
+¦           +---Testing
+¦               +---Temporary
++---ProtocCompiler
+    +---tests

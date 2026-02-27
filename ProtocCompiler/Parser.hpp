@@ -12,7 +12,7 @@ public:
 	Parser() = default;
 	Parser(std::string _file_name) : file_name{ _file_name } {}
 
-	std::unique_ptr<AST> GetAbstractSyntaxTree();
+	std::shared_ptr<AST> GetAbstractSyntaxTree();
 	bool SyntaxAnalize(const std::vector<std::string>& words) const;
 
 	inline static std::unordered_set<std::string> defenitions{ "namespace", "class", "enum" };
