@@ -24,13 +24,13 @@ void dfs(AST* curr)
 
 int main(int argc, char* argv[])
 {	
-
 	Parser parser(argv[1]);
 
 	auto ASTroot = parser.GetAbstractSyntaxTree();
 	
 	Generator gen("Person", ASTroot);
 	gen.GenerateHeader();
+
 
 	return 0;
 }
