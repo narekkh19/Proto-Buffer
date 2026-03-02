@@ -59,6 +59,7 @@ class EnumGen : public CodeGen
 public:
 	EnumGen(const std::shared_ptr<AST>& ptr) : CodeGen(ptr) {}
 	std::string GetDeclaration(std::string intent) override;
+	std::string GetMethodDefenition(std::string class_name) override;
 };
 
 class PrimitiveGen : public InstanceGen
@@ -67,6 +68,7 @@ public:
 	PrimitiveGen(const std::shared_ptr<AST>& ptr) : InstanceGen(ptr) {}
 	std::string GetDeclaration(std::string intent) override;
 	std::string GetMethods(std::string intent) override;
+	std::string GetMethodDefenition(std::string class_name) override;
 };
 
 class ContainerGen : public InstanceGen
@@ -75,7 +77,7 @@ public:
 	ContainerGen(const std::shared_ptr<AST>& ptr) : InstanceGen(ptr) {}
 	std::string GetDeclaration(std::string intent) override;
 	std::string GetMethods(std::string intent) override;
-
+	std::string GetMethodDefenition(std::string class_name) override;
 };
 
 
@@ -85,6 +87,7 @@ public:
 	StringGen(const std::shared_ptr<AST>& ptr) : InstanceGen(ptr) {}
 	std::string GetDeclaration(std::string intent) override;
 	std::string GetMethods(std::string intent) override;
+	std::string GetMethodDefenition(std::string class_name) override;
 };
 
 

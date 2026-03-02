@@ -1,26 +1,26 @@
 #include "Parser.hpp"
 #include "Generator.hpp"
 
-int u{};
-
-void dfs(AST* curr)
-{
-	++u;
-	if (u != 1)
-	{
-		curr->print();
-	}
-
-	if (Defenition* def_ptr = dynamic_cast<Defenition*>(curr))
-	{
-		const auto& children = def_ptr->GetChildren();
-
-		for (auto& child : children)
-		{
-			dfs(child.get());
-		}
-	}
-}
+//int u{};
+//
+//void dfs(AST* curr)
+//{
+//	++u;
+//	if (u != 1)
+//	{
+//		curr->print();
+//	}
+//
+//	if (Defenition* def_ptr = dynamic_cast<Defenition*>(curr))
+//	{
+//		const auto& children = def_ptr->GetChildren();
+//
+//		for (auto& child : children)
+//		{
+//			dfs(child.get());
+//		}
+//	}
+//}
 
 int main(int argc, char* argv[])
 {	
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 	
 	Generator gen("Person", ASTroot);
 	gen.GenerateHeader();
-
+	gen.GenerateCpp();
 
 	return 0;
 }
