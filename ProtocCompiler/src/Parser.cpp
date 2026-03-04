@@ -1,4 +1,4 @@
-#include "Parser.hpp"
+#include "../include/Parser.hpp"
 #include <stack>
 
 std::shared_ptr<AST> Parser::GetAbstractSyntaxTree() 

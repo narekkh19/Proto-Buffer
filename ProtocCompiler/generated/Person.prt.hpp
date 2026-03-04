@@ -1,3 +1,4 @@
+#include "ProtoRuntime.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,12 +7,7 @@ namespace tutorial {
 
 class Person {
 
-	std::string name{};
-
-	int id{};
-
-	std::string email{};
-
+public:
 	enum class PhoneType {
 
 		PHONE_TYPE_UNSPECIFIED,
@@ -22,6 +18,7 @@ class Person {
 
 	class PhoneNumber {
 
+	private:
 		std::string number{};
 
 		PhoneType type{};
@@ -34,7 +31,17 @@ class Person {
 
 		const PhoneType& get_type() const;
 		void set_type(const PhoneType& i);
+		std::vector<uint8_t> Serialize() const;
+		void Deserialize(const std::vector<uint8_t>& _buffer);
+
 	};
+
+private:
+	std::string name{};
+
+	int id{};
+
+	std::string email{};
 
 	std::vector<PhoneNumber> phones{};
 
@@ -57,10 +64,14 @@ public:
 	void clear_phones();
 	const std::vector<PhoneNumber>& get_phones() const;
 
+	std::vector<uint8_t> Serialize() const;
+	void Deserialize(const std::vector<uint8_t>& _buffer);
+
 };
 
 class AddressBook {
 
+private:
 	std::vector<Person> people{};
 
 public:
@@ -69,6 +80,9 @@ public:
 	void add_people(const Person& val);
 	void clear_people();
 	const std::vector<Person>& get_people() const;
+
+	std::vector<uint8_t> Serialize() const;
+	void Deserialize(const std::vector<uint8_t>& _buffer);
 
 };
 

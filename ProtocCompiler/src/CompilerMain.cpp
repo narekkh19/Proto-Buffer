@@ -1,5 +1,5 @@
-#include "Parser.hpp"
-#include "Generator.hpp"
+#include "../include/Parser.hpp"
+#include "../include/Generator.hpp"
 
 //int u{};
 //

@@ -109,14 +109,14 @@ public:
 class Instance : public AST
 {
 	std::string type;
-	int id;
+	int field_number;
 
 public: 
 	std::string GetType() const { return type; }
 	void SetType(const std::string& _type) { type = _type; }
 
-	int GetId() const { return id; }
-	void SetId(int _id) { id = _id; }
+	int GetFN() const { return field_number; }
+	void SetFN(int _field_number) { field_number = _field_number; }
 	
 	Instance() = default;
 
@@ -127,16 +127,16 @@ public:
 		SetType(words[0]);
 		SetName(words[1]);
 
-		std::string ID = words.back();
-		ID.pop_back();//poping back the last ; (ex. int id = 1;)
+		std::string Field_Number = words.back();
+		Field_Number.pop_back();//poping back the last ; (ex. int id = 1;)
 
-		int id = std::atoi(ID.c_str());
-		SetId(id);
+		int fn = std::atoi(Field_Number.c_str());
+		SetFN(fn);
 	}
 
 	void print() const override
 	{
-		std::cout << GetType() << ": " << GetName() << " === " << GetId() << std::endl;
+		std::cout << GetType() << ": " << GetName() << " === " << GetFN() << std::endl;
 	}
 };
 
@@ -181,16 +181,16 @@ public:
 		SetInnerType(words[1]);
 		SetName(words[2]);
 
-		std::string ID = words.back();
-		ID.pop_back(); //poping back the last ; (ex. vector PhoneNumber phones = 1;)
+		std::string FN = words.back(); 
+		FN.pop_back(); //poping back the last ; (ex. vector PhoneNumber phones = 1;)
 
-		int id = std::atoi(ID.c_str());
-		SetId(id);
+		int fn = std::atoi(FN.c_str());
+		SetFN(fn);
 	}
 
 	void print() const override
 	{
-		std::cout << "Vector: " << GetInnerType() << " " << GetName() << " === " << GetId() << std::endl;
+		std::cout << "Vector: " << GetInnerType() << " " << GetName() << " === " << GetFN() << std::endl;
 	}
 };
 

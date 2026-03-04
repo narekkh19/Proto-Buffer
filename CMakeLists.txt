@@ -5,12 +5,12 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_library(CompilerLogic STATIC
-    "ProtocCompiler/Parser.cpp"
-    "ProtocCompiler/Generator.cpp"
+    "ProtocCompiler/src/Parser.cpp"
+    "ProtocCompiler/src/Generator.cpp"
 )
 
-add_executable(MyCompiler "ProtocCompiler/CompilerMain.cpp")
+add_executable(MyCompiler "ProtocCompiler/src/CompilerMain.cpp")
 
 target_link_libraries(MyCompiler PRIVATE CompilerLogic)
 
-target_include_directories(MyCompiler PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ProtocCompiler")
+target_include_directories(MyCompiler PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ProtocCompiler/src")
