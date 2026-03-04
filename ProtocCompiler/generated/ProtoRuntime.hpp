@@ -33,6 +33,14 @@ namespace ProtoRuntime {
         WriteVarint(buf, ZigZagEncode(val));
     }
 
+    // 1b. For Enums (treated as varint)
+    template<typename T, typename std::enable_if<std::is_enum<T>::value, int>::type = 0>
+    inline void WriteField(std::vector<uint8_t>& buf, int num, const T& val) {
+        if (static_cast<int>(val) == 0) return;
+        buf.push_back(static_cast<uint8_t>((num << 3) | 0)); // Wire 0 for varint
+        WriteVarint(buf, static_cast<uint64_t>(val));
+    }
+
     // 2. For Floats (Fixed 32-bit)
     inline void WriteField(std::vector<uint8_t>& buf, int num, float val) {
         if (val == 0.0f) return;
@@ -121,8 +129,8 @@ namespace ProtoRuntime {
         }
     }
 
-    // 7. For Single User-Defined Objects
-    template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_same<T, std::string>::value, int>::type = 0>
+    // 7. For Single User-Defined Objects (not vectors, not arithmetic, not string, not enum)
+    template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value && !std::is_same<T, std::string>::value, int>::type = 0>
     inline void WriteField(std::vector<uint8_t>& buf, int num, const T& obj) {
         // 1. Ask the object to serialize itself
         std::vector<uint8_t> msg_data = obj.Serialize();
@@ -137,7 +145,7 @@ namespace ProtoRuntime {
     }
 
     // 8. For Vector of User-Defined Objects (Unpacked)
-    template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_same<T, std::string>::value, int>::type = 0>
+    template <typename T, typename std::enable_if<!std::is_arithmetic<T>::value && !std::is_enum<T>::value && !std::is_same<T, std::string>::value, int>::type = 0>
     inline void WriteField(std::vector<uint8_t>& buf, int num, const std::vector<T>& vec) {
         for (const auto& item : vec) {
             // Just call the single object version for every item in the vector
@@ -198,12 +206,23 @@ namespace ProtoRuntime {
         val = static_cast<T>(ReadVarint(buf, pos));
     }
 
-    // 4. For Nested Objects
-    template <typename T, typename std::enable_if<std::is_class<T>::value && !std::is_same<T, std::string>::value, int>::type = 0>
+    // 4. For Nested Objects (not vector, not string)
+    template <typename T, typename std::enable_if<std::is_class<T>::value && !std::is_same<T, std::string>::value && !std::is_same<typename std::decay<T>::type, std::vector<typename T::value_type>>::value, int>::type = 0>
     inline void ReadField(const std::vector<uint8_t>& buf, size_t& pos, T& obj) {
         uint64_t len = ReadVarint(buf, pos);
         std::vector<uint8_t> sub_buffer(buf.begin() + pos, buf.begin() + pos + len);
         obj.Deserialize(sub_buffer); // Recursively call Deserialize
+        pos += len;
+    }
+
+    // 5. For Vector of Objects (has Deserialize method)
+    template <typename T>
+    inline void ReadField(const std::vector<uint8_t>& buf, size_t& pos, std::vector<T>& vec) {
+        uint64_t len = ReadVarint(buf, pos);
+        std::vector<uint8_t> sub_buffer(buf.begin() + pos, buf.begin() + pos + len);
+        T obj;
+        obj.Deserialize(sub_buffer);
+        vec.push_back(obj);
         pos += len;
     }
 }
